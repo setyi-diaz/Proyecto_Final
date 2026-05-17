@@ -10,6 +10,8 @@ public:
     Rampa();
     float calcularImpulsoX();
     float calcularImpulsoY();
+    float getAngulo() const;
+    void setAngulo(float newAngulo);
 };
 
 #endif // RAMPA_H

@@ -13,7 +13,6 @@ private:
     float cooldowBanana;
 public:
     Rival();
-    virtual void acelerar();
     bool tieneVentaja();
     void ajustarVelociadad();
     void lanzarRoca();

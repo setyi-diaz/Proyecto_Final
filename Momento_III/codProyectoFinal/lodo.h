@@ -5,10 +5,10 @@
 class Lodo : public Obstaculo
 {
 private:
-    unsigned short friccion;
+    float  friccion;
 public:
     Lodo();
-    void generarFriccion(unsigned short);
+    void generarFriccion(float& ,float );
 };
 
 #endif // LODO_H

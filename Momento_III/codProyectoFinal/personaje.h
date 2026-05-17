@@ -14,10 +14,25 @@ private:
     float anguloSprite;
     float velAlDespegue;
 public:
-    virtual void acelerar() = 0; // funcion virtual pura
-    void aplicarGravedad(float );
-    void actualizarPosicion(float );
     Personaje();
+
+    void acelerar(float dt);
+    void aplicarGravedad(float dt,float g);
+    void actualizarPosicion(float );
+    void movParabolico(float dt,float g);
+
+    float getPosX() const;
+    void setPosX(float newPosX);
+    float getPosY() const;
+    void setPosY(float newPosY);
+    float getVelocidadX() const;
+    void setVelocidadX(float newVelocidadX);
+    float getVelocidadY() const;
+    void setVelocidadY(float newVelocidadY);
+    float getAceleracion() const;
+
+    float getVelocidadMax() const;
+    void setVelocidadMax(float newVelocidadMax);
 };
 
 #endif // PERSONAJE_H

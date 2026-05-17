@@ -5,18 +5,17 @@
 class Jugador : public Personaje
 {
 private:
+    float rozamiento;
     float velocidadRot;
     float anguloRot;
     float bonusVelAcum;
 public:
-    Jugador();
-    virtual void acelerar();
-    void frenar();
-    void inclinar();
+    Jugador(float ,float ,float ,float);
+    void frenar(float dt);
+    void inclinar(float dt);
     void evaluarAterrizaje();
     void aplicarBonus();
     void aplicarPenalizacion();
-
 };
 
 #endif // JUGADOR_H

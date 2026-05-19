@@ -33,6 +33,11 @@ public:
 
     float getVelocidadMax() const;
     void setVelocidadMax(float newVelocidadMax);
+    float getAnguloSprite() const;
+    void setAnguloSprite(float newAnguloSprite);
+    bool getEnSuelo() const;
+    void setEnSuelo(bool newEnSuelo);
+    void setAceleracion(float newAceleracion);
 };
 
 #endif // PERSONAJE_H

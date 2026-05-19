@@ -11,6 +11,7 @@ private:
     float bonusVelAcum;
 public:
     Jugador(float ,float ,float ,float);
+    Jugador();
     void frenar(float dt);
     void inclinar(float dt);
     void evaluarAterrizaje();

@@ -6,8 +6,12 @@ class Lodo : public Obstaculo
 {
 private:
     float  friccion;
+    float posX;
+    float posY;
+    float ancho;
+    float alto;
 public:
-    Lodo();
+    Lodo(float f, float x, float y, float w, float h);
     void generarFriccion(float& ,float );
 };
 

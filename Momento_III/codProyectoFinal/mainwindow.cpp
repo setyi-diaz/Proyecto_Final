@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     // tiempo
     timer = new QTimer(this);
     timer->setInterval(16);   // ~60 fps
-    connect(timer, &QTimer::timeout, this, &MainWindow::actualizarFrame);
+    connect(timer, &QTimer::timeout, this, &MainWindow::actualizarFrame);   //connect(detectorSeñal,señal,ventana,respuesta)
     reloj.start();
     timer->start();
 }
@@ -102,6 +102,9 @@ void MainWindow::actualizarFrame()
     if (frenando)
         motoJugador.frenar(dt);// usa rozamiento del Jugador
 
+    if (!acelerando)
+        motoJugador.desaceleracionAuto(dt);
+
     // Clampear velocidad mínima a 0
     if (motoJugador.getVelocidadX() < 0.f)
         motoJugador.setVelocidadX(0.f);
@@ -110,13 +113,56 @@ void MainWindow::actualizarFrame()
     motoJugador.actualizarPosicion(dt);
 
     // Convertir posición lógica → posición en escena (píxeles)
-    // La moto rebota al llegar al borde derecho (efecto de "pista circular")
     float posLogica = motoJugador.getPosX();
-    float xEscena   = fmodf(posLogica * ESCALA, SCENE_W - MOTO_W);
-    if (xEscena < 0) xEscena = 0;
-
+    // La cámara sigue al jugador, centrado en 1/3 de la pantalla
+    camaraX   = (posLogica * ESCALA) - (SCENE_W*0.33f);
+    if (camaraX  < 0) camaraX  = 0;
+    // La moto se dibuja siempre relativa a la cámara
+    float xEscena = posLogica * ESCALA - camaraX;
     spriteMovRect->setPos(xEscena, SUELO_Y - MOTO_H);
 
+    float xObstEnPantalla = obstaculoPosX * ESCALA - camaraX;
+    spriteObstaculo->setPos(xObstEnPantalla, yObstaculo);
+
+    bool enLodo = (motoJugador.getPosX() + MOTO_W/ESCALA > lodo.getPosX()) &&
+                  (motoJugador.getPosX() < lodo.getPosX() + lodo.getAncho()) &&
+                  (motoJugador.getPosY() >= lodo.getPosY());
+    if (enLodo) {
+        float vx = motoJugador.getVelocidadX();
+        lodo.generarFriccion(vx, dt);
+        if (vx < 0) vx = 0;
+        motoJugador.setVelocidadX(vx);
+    }
+
+    bool sobreRampa = (motoJugador.getPosX() + MOTO_W/ESCALA > lodo.getPosX()) &&
+                      (motoJugador.getPosX() < lodo.getPosX() + lodo.getAncho()) &&
+                      (motoJugador.getPosY() >= lodo.getPosY());
+
+    if (sobreRampa && motoJugador.getEnSuelo()) {
+        float vx = motoJugador.getVelocidadX();
+        float velDespegue = vx;  // guardar para el bonus
+
+        // La rampa convierte vx horizontal en impulso diagonal
+        float vy = vx * rampa.getSenAngulo();   // componente vertical
+        vx = vx * rampa.getCosAngulo();         // componente horizontal reducida
+
+        motoJugador.setVelocidadX(vx);
+        motoJugador.setVelocidadY(vy);
+        motoJugador.setEnSuelo(false);
+        // guardar velAlDespegue si quieres implementar el bonus de ángulo
+    }
+    if (!motoJugador.getEnSuelo()) {
+        motoJugador.aplicarGravedad(dt, 9.8f);
+
+        float newPosY = motoJugador.getPosY() + motoJugador.getVelocidadY() * dt;
+
+        if (newPosY <= 0) {  // llegó al suelo (posY=0 es el suelo en coords lógicas)
+            motoJugador.setPosY(0);
+            motoJugador.setVelocidadY(0);
+            motoJugador.setEnSuelo(true);
+            motoJugador.evaluarAterrizaje();  // aplica bonus o penalización
+        }
+    }
     // Actualizar labels
     ui->vel_label->setText(
         QString("Velocidad: %1 m/s").arg(motoJugador.getVelocidadX(), 0, 'f', 2));

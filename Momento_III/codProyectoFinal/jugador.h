@@ -5,14 +5,16 @@
 class Jugador : public Personaje
 {
 private:
-    float rozamiento;
+    float friccionFreno;
+    float friccionSuelo;
     float velocidadRot;
     float anguloRot;
     float bonusVelAcum;
 public:
-    Jugador(float ,float ,float ,float);
+    Jugador(float ,float ,float ,float, float);
     Jugador();
     void frenar(float dt);
+    void desaceleracionAuto(float dt);
     void inclinar(float dt);
     void evaluarAterrizaje();
     void aplicarBonus();

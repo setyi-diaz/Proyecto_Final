@@ -17,18 +17,18 @@
    <widget class="QGraphicsView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>840</width>
-      <height>220</height>
+      <x>0</x>
+      <y>80</y>
+      <width>800</width>
+      <height>200</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="pos_label">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>290</y>
+      <x>10</x>
+      <y>370</y>
       <width>300</width>
       <height>30</height>
      </rect>
@@ -46,8 +46,8 @@
    <widget class="QLabel" name="vel_label">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>250</y>
+      <x>10</x>
+      <y>320</y>
       <width>300</width>
       <height>30</height>
      </rect>

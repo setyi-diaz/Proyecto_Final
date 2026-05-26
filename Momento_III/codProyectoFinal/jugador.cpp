@@ -1,21 +1,30 @@
 #include "jugador.h"
 
 Jugador::Jugador(){
-    rozamiento = 20;
+    friccionFreno = 50;
+    friccionSuelo = 20;
     velocidadRot = 180;
     anguloRot = 0;
     bonusVelAcum = 0;
 }
-Jugador::Jugador(float a, float b , float c , float d){
-    rozamiento = a;
-    velocidadRot = b;
-    anguloRot = c;
-    bonusVelAcum = d;
+Jugador::Jugador(float a, float b , float c , float d, float e){
+    friccionFreno = a;
+    friccionSuelo = b;
+    velocidadRot = c;
+    anguloRot = d;
+    bonusVelAcum = e;
 }
 
 void Jugador::frenar(float dt){
     float vx = getVelocidadX();
-    vx -= (rozamiento * dt);
+    vx -= (friccionFreno * dt);
+
+    setVelocidadX(vx);
+}
+
+void Jugador::desaceleracionAuto(float dt){
+    float vx = getVelocidadX();
+    vx -= (friccionSuelo * dt);
 
     setVelocidadX(vx);
 }

@@ -2,13 +2,13 @@
 
 Rival::Rival() {}
 
-bool Rival::tieneVentaja() {
-
-}
+// bool Rival::tieneVentaja() {
+//     return ;
+// }
 void Rival::ajustarVelociadad() {
 
 }
-void Rival::lanzarRoca() {
+void Rival::lanzarBanana() {
 
 }
 void Rival::actualizarCoolDown(float dt) {

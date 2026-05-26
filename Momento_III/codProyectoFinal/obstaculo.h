@@ -5,10 +5,18 @@
 class Obstaculo
 {
 private:
-    unsigned short posX;
-    unsigned short posY;
+    float posX;
+    float posY;
+    float ancho;
+    float alto;
 public:
     Obstaculo();
+    float getPosX() const;
+    float getPosY() const;
+    float getAncho() const;
+    float getAlto() const;
+    void setPosX(float newPosX);
+    void setPosY(float newPosY);
 };
 
 #endif // OBSTACULO_H

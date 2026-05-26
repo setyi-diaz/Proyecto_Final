@@ -23,9 +23,10 @@ public:
     ~MainWindow();
 
 private slots:
+    void actualizarFrame();
+protected:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
-    void actualizarFrame();
 
 private:
     Ui::MainWindow *ui;
@@ -35,13 +36,16 @@ private:
     QGraphicsScene *escena;
     QGraphicsRectItem *spriteMovRect;
     QGraphicsRectItem * plataforma;
+
     bool acelerando = false;
     bool frenando = false;
+    float camaraX = 0.f;
+    static constexpr float MUNDO_W = 5000.f; // ancho total de la plataforma
     static constexpr float SCENE_W   = 800.f;  // ancho lógico de la escena
     static constexpr float SCENE_H   = 200.f;
     static constexpr float MOTO_W    = 60.f;
     static constexpr float MOTO_H    = 30.f;
-    static constexpr float SUELO_Y   = 150.f;  // Y del piso en escena
+    static constexpr float SUELO_Y   = 160.f;  // Y del piso en escena
     static constexpr float ESCALA    = 4.f;    // píxeles por unidad de juego
 };
 #endif // MAINWINDOW_H

@@ -15,7 +15,7 @@ public:
     Rival();
     bool tieneVentaja();
     void ajustarVelociadad();
-    void lanzarRoca();
+    void lanzarBanana();
     void actualizarCoolDown(float dt);
 };
 

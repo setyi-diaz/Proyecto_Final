@@ -109,5 +109,5 @@ void Personaje::actualizarPosicion(float dt){
 
 void Personaje::movParabolico(float dt,float g){
     posX = posX + velocidadX * dt;
-    posY = posY + velocidadY * dt + 0.5f * g * dt * dt;
+    posY = posY + velocidadY * dt - 0.5f * g * dt * dt;
 }

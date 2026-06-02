@@ -5,6 +5,7 @@
 #include <QList>
 #include <QColor>
 #include "personalidad.h"
+#include "rivalnivel1.h"
 
 class QGraphicsTextItem;
 class QGraphicsRectItem;
@@ -13,11 +14,13 @@ class MenuPersonalidades : public QGraphicsScene {
     Q_OBJECT
 public:
     explicit MenuPersonalidades(QObject *parent = nullptr);
+    ~MenuPersonalidades();
 
     Personalidad* getPersonalidadJugador() const;
     QList<Personalidad*> getPersonalidadesRivales() const;
     int getNumCarriles() const;
     int getNumRivales() const;
+    Dificultad getDificultad() const;
 
 signals:
     void juegoIniciado();
@@ -37,7 +40,13 @@ private:
 
     int numCarriles;   // 4–10
     int numRivales;    // 2–7
+    Dificultad dificultadSeleccionada;
     int indices[8];    // índice de personalidad por slot (0=jugador, 1-7=rivales)
+
+    // Botones dificultad
+    QGraphicsRectItem *btnFacil;
+    QGraphicsRectItem *btnMedio;
+    QGraphicsRectItem *btnDificil;
 
     // Config bar items
     QGraphicsRectItem *btnCarrilMenos;

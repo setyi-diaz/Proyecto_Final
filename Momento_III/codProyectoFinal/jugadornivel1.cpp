@@ -3,20 +3,23 @@
 
 JugadorNivel1::JugadorNivel1(QGraphicsItem *parent)
     : CorredorNivel1(parent),
-      personalidad(nullptr),
-      golpeDisponible(true)
-{}
+      personalidad(nullptr)
+{
+    setColorBase(Qt::blue);
+}
 
-void JugadorNivel1::acelerar() {}
+void JugadorNivel1::acelerar() {
+    velocidadY += aceleracion;
+    if (velocidadY > velocidadMax) velocidadY = velocidadMax;
+}
 
-void JugadorNivel1::frenar() {}
-
-void JugadorNivel1::golpearIzquierda() {}
-
-void JugadorNivel1::golpearDerecha() {}
+void JugadorNivel1::frenar() {
+    velocidadY -= aceleracion * 0.5f;
+    if (velocidadY < 0) velocidadY = 0;
+}
 
 void JugadorNivel1::aplicarPersonalidad() {}
 
-void JugadorNivel1::setPersonalidad(Personalidad *p) {}
-
-bool JugadorNivel1::isGolpeDisponible() const { return false; }
+void JugadorNivel1::setPersonalidad(Personalidad *p) {
+    personalidad = p;
+}

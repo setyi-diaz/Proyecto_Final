@@ -10,7 +10,7 @@ public:
     virtual ~CorredorNivel1();
 
     virtual void acelerar() = 0;
-    virtual void frenar() = 0;
+    virtual void frenar() {}
     void actualizarPosicion(float dt);
     void actualizarAnimaciones(float dt);
 

@@ -3,15 +3,13 @@
 #include <QPen>
 #include <QColor>
 
-Pista::Pista(short numCarriles, short longitud, QGraphicsItem *parent)
+Pista::Pista(short numCarriles, short longitud, float anchoCarril, QGraphicsItem *parent)
     : QGraphicsRectItem(parent),
       numCarriles(numCarriles),
       longitud(longitud)
-{}
+{
+    setRect(0, 0, numCarriles * anchoCarril, 900);
+    setBrush(QBrush(QColor(50, 50, 50)));
+}
 
-short Pista::obtenerCarril(int indice) const { return 0; }
-
-bool Pista::carrilValido(int indice) const { return false; }
-
-short Pista::getNumCarriles() const { return 0; }
-short Pista::getLongitud() const { return 0; }
+short Pista::getNumCarriles() const { return numCarriles; }

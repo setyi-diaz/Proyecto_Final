@@ -8,7 +8,6 @@ public:
     Personalidad(const QString &nombre, float modAceleracion, float modVelMax,
                  float resistenciaGolpe, float fuerzaGolpe);
 
-    void aplicarAtributos();
     QString getNombre() const;
     float getModAceleracion() const;
     float getModVelMax() const;

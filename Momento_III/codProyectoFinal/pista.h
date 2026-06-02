@@ -5,12 +5,9 @@
 
 class Pista : public QGraphicsRectItem {
 public:
-    Pista(short numCarriles, short longitud, QGraphicsItem *parent = nullptr);
+    Pista(short numCarriles, short longitud, float anchoCarril = 100, QGraphicsItem *parent = nullptr);
 
-    short obtenerCarril(int indice) const;
-    bool carrilValido(int indice) const;
     short getNumCarriles() const;
-    short getLongitud() const;
 
 private:
     short numCarriles;

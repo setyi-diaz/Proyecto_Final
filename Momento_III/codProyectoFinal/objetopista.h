@@ -5,15 +5,19 @@
 
 class ObjetoPista : public QGraphicsEllipseItem {
 public:
-    ObjetoPista(unsigned short posX, unsigned short posY, QGraphicsItem *parent = nullptr);
-    virtual ~ObjetoPista();
+    // efecto > 0 = impulso (banana), efecto < 0 = frenada (lodo/obstaculo)
+    // Si carril >= 0 se posiciona automaticamente en ese carril
+    ObjetoPista(float efecto, float posY, int carril = -1,
+                float margenX = 50, float anchoCarril = 100,
+                QGraphicsItem *parent = nullptr);
 
-    unsigned short getPosX() const;
-    unsigned short getPosY() const;
+    float getEfecto() const;
+    bool esImpulso() const;
+    int getCarril() const;
 
-protected:
-    unsigned short posX;
-    unsigned short posY;
+private:
+    float efecto;
+    int carril;
 };
 
 #endif // OBJETOPISTA_H

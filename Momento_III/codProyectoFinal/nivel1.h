@@ -11,13 +11,14 @@
 #include <QPair>
 #include <QColor>
 #include <QGraphicsSceneMouseEvent>
+#include "rivalnivel1.h"
 
 class JugadorNivel1;
 class RivalNivel1;
 class Pista;
-class Obstaculo;
-class ObjetoEfecto;
+class ObjetoPista;
 class Personalidad;
+
 
 struct EstadoRival {
     RivalNivel1 *rival = nullptr;
@@ -35,6 +36,7 @@ public:
     ~Nivel1();
 
     void iniciar();
+    void setDificultad(Dificultad d);
     void setPersonalidades(Personalidad *personalidadJugador, QList<Personalidad*> personalidadesRivales);
     JugadorNivel1* getJugador() const;
     int getNumCarriles() const;
@@ -58,8 +60,9 @@ private slots:
 
 private:
     void crearRival(int carril, Personalidad *personalidad, const QColor &color);
+    void actualizarBarraProgreso();
     void generarObstaculos();
-    void generarBanana();
+    void generarEfecto(float efecto);
     void actualizarColisiones();
     void verificarVictoria();
     void actualizarTextosFlotantes();
@@ -74,8 +77,8 @@ private:
     JugadorNivel1 *jugador;
     QList<EstadoRival> rivales;
     Pista *pista;
-    QList<Obstaculo*> obstaculos;
-    QList<ObjetoEfecto*> efectos;
+    QList<ObjetoPista*> obstaculos;
+    QList<ObjetoPista*> efectos;
 
     QGraphicsTextItem *textoControles;
     QGraphicsTextItem *textoInfo;
@@ -87,7 +90,6 @@ private:
     float progresoJugador;
     float velocidadDrift;
     float velBaseJugador;
-    float scrollOffset;
     float impulsoJugador;
     float tiempoImpulsoJugador;
     float frenadaJugador;
@@ -108,6 +110,8 @@ private:
     float intervaloObstaculos;
 
     float cooldownGolpe;
+    float velocidadObstaculos;
+    Dificultad dificultad;
 
     QList<QPair<QGraphicsTextItem*, float>> textosFlotantes;
 

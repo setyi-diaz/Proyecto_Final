@@ -10,16 +10,11 @@ public:
 
     void acelerar() override;
     void frenar() override;
-    void golpearIzquierda();
-    void golpearDerecha();
     void aplicarPersonalidad();
-
     void setPersonalidad(Personalidad *p);
-    bool isGolpeDisponible() const;
 
 private:
     Personalidad *personalidad;
-    bool golpeDisponible;
 };
 
 #endif // JUGADORNIVEL1_H

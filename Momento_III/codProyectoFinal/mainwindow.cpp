@@ -4,21 +4,20 @@
 #include "menupersonalidades.h"
 #include <QKeyEvent>
 #include <QResizeEvent>
-#include <QScreen>
-#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), nivel(nullptr)
+    : QMainWindow(parent),
+      nivel(nullptr),
+      menu(nullptr)
 {
     setWindowTitle("Carrera de Simios");
+    setFixedSize(720, 880);
 
     vista = new QGraphicsView(this);
+    vista->setFixedSize(700, 860);
     vista->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     vista->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     vista->setFocusPolicy(Qt::NoFocus);
-    vista->setRenderHint(QPainter::Antialiasing);
-    vista->setRenderHint(QPainter::SmoothPixmapTransform);
-    vista->setBackgroundBrush(QBrush(QColor(15, 15, 20)));
     setCentralWidget(vista);
 
     setFocusPolicy(Qt::StrongFocus);
@@ -27,18 +26,45 @@ MainWindow::MainWindow(QWidget *parent)
     menu = new MenuPersonalidades(this);
     connect(menu, &MenuPersonalidades::juegoIniciado, this, &MainWindow::iniciarJuego);
     vista->setScene(menu);
-
-    showMaximized();
 }
 
-void MainWindow::iniciarJuego() {}
+void MainWindow::iniciarJuego() {
+    nivel = new Nivel1(3, 2, this);
+    vista->setScene(nivel);
+    nivel->iniciar();
+    setFocus();
+}
 
 void MainWindow::volverAlMenu() {}
 
-void MainWindow::keyPressEvent(QKeyEvent *event) {}
-
-void MainWindow::keyReleaseEvent(QKeyEvent *event) {}
-
-void MainWindow::resizeEvent(QResizeEvent *event) {}
-
 void MainWindow::ajustarVista() {}
+
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (!nivel) return;
+
+    JugadorNivel1 *j = nivel->getJugador();
+    if (!j) return;
+
+    switch (event->key()) {
+    case Qt::Key_W: nivel->aumentarVelocidad(); break;
+    case Qt::Key_S: nivel->disminuirVelocidad(); break;
+    case Qt::Key_A:
+        if (j->getCarrilActual() > 0)
+            j->cambiarCarril(j->getCarrilActual() - 1);
+        break;
+    case Qt::Key_D:
+        if (j->getCarrilActual() < nivel->getNumCarriles() - 1)
+            j->cambiarCarril(j->getCarrilActual() + 1);
+        break;
+    default:
+        QMainWindow::keyPressEvent(event);
+    }
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+    QMainWindow::keyReleaseEvent(event);
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    QMainWindow::resizeEvent(event);
+}

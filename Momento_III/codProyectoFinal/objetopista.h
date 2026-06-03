@@ -5,8 +5,6 @@
 
 class ObjetoPista : public QGraphicsEllipseItem {
 public:
-    // efecto > 0 = impulso (banana), efecto < 0 = frenada (lodo/obstaculo)
-    // Si carril >= 0 se posiciona automaticamente en ese carril
     ObjetoPista(float efecto, float posY, int carril = -1,
                 float margenX = 50, float anchoCarril = 100,
                 QGraphicsItem *parent = nullptr);
@@ -15,9 +13,14 @@ public:
     bool esImpulso() const;
     int getCarril() const;
 
+    bool puedeColisionar() const;
+    void activarCooldown(float duracion);
+    void actualizarCooldown(float dt);
+
 private:
     float efecto;
     int carril;
+    float cooldown;
 };
 
 #endif // OBJETOPISTA_H

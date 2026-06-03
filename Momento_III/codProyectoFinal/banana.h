@@ -6,8 +6,8 @@ class Banana : public Proyectil
 {
 public:
     Banana();
-    // virtual void calcularVelnicial();
-    // virtual void calcularPosVuelo();
+    void calcularVelnicial(float velxRival, float angulo) override;
+    void calcularPosVuelo(float dt,float g) override;
 };
 
 #endif // BANANA_H

@@ -14,6 +14,7 @@ SOURCES += \
     lodo.cpp \
     main.cpp \
     mainwindow.cpp \
+    nivel2.cpp \
     obstaculo.cpp \
     personaje.cpp \
     proyectil.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     jugador.h \
     lodo.h \
     mainwindow.h \
+    nivel2.h \
     obstaculo.h \
     personaje.h \
     proyectil.h \

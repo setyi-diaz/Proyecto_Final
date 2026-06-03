@@ -2,20 +2,22 @@
 #define RIVAL_H
 #include "personaje.h"
 #include "proyectil.h"
-
 #include <list>
 using std::list;
 
 class Rival : public Personaje
 {
 private:
-    list<Proyectil*> proyectiles;
+    list<Proyectil*> bananas;
     float cooldowBanana;
+    float acum;
+    static constexpr float veriVentaja  = 2.0f;
 public:
     Rival();
-    bool tieneVentaja();
-    void ajustarVelociadad();
-    void lanzarBanana();
+    ~Rival();
+    bool tieneVentaja(float posxJ);
+    void ajustarVelociadad(float velxJ);
+    void lanzarBanana(float dt);
     void actualizarCoolDown(float dt);
 };
 

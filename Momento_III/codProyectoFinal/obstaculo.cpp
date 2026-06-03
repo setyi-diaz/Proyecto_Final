@@ -1,4 +1,15 @@
 #include "obstaculo.h"
+Obstaculo::Obstaculo() : posX(0), posY(0), ancho(0), alto(0) {}
+
+Obstaculo::Obstaculo(float x, float y, float w, float h)
+    : posX(x), posY(y), ancho(w), alto(h) {}
+
+bool Obstaculo::colisiona(const Personaje* p, float pAncho, float pAlto) const {
+    return (p->getPosX() + pAncho > posX) &&
+           (p->getPosX() < posX + ancho) &&
+           (p->getPosY() < posY + alto) &&
+           (p->getPosY() + pAlto  > posY);
+}
 
 float Obstaculo::getPosX() const
 {
@@ -30,4 +41,3 @@ void Obstaculo::setPosY(float newPosY)
     posY = newPosY;
 }
 
-Obstaculo::Obstaculo() {}

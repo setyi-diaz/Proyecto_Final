@@ -5,56 +5,47 @@ Jugador::Jugador(){
     friccionSuelo = 20;
     velocidadRot = 180;
     anguloRot = 0;
-    bonusVelAcum = 0;
 }
-Jugador::Jugador(float a, float b , float c , float d, float e){
+Jugador::Jugador(float a, float b , float c , float d){
     friccionFreno = a;
     friccionSuelo = b;
     velocidadRot = c;
     anguloRot = d;
-    bonusVelAcum = e;
 }
 
 void Jugador::frenar(float dt){
-    float vx = getVelocidadX();
-    vx -= (friccionFreno * dt);
-
-    setVelocidadX(vx);
+    velocidadX  -= friccionFreno * dt;
+    if (velocidadX < 0) velocidadX = 0;
 }
 
 void Jugador::desaceleracionAuto(float dt){
-    float vx = getVelocidadX();
-    vx -= (friccionSuelo * dt);
-
-    setVelocidadX(vx);
+    velocidadX -= friccionSuelo * dt;
+    if (velocidadX < 0) velocidadX = 0;
 }
 void Jugador::inclinar(float dt){
-    float angulo = getAnguloSprite();
-    angulo = angulo + (velocidadRot * dt);
-    setAnguloSprite(angulo);
+    anguloRot   += velocidadRot * dt;
+    anguloSprite = anguloRot;
 }
 void Jugador::aplicarBonus(){
-    if(anguloRot <= 90){
-        bonusVelAcum = 0.05*getVelocidadMax();
-        setVelocidadMax(bonusVelAcum + getVelocidadMax());
-    }
-    else if (anguloRot <= 180){
-        bonusVelAcum = 0.1*getVelocidadMax();
-        setVelocidadMax(bonusVelAcum + getVelocidadMax());
-    }
-    else if (anguloRot <= 360){
-        bonusVelAcum = 0.15*getVelocidadMax();
-        setVelocidadMax(bonusVelAcum + getVelocidadMax());
-    }
-    else{
-        bonusVelAcum = -0.1*getVelocidadMax();
-        setVelocidadMax(bonusVelAcum + getVelocidadMax());
-    }
+    if (anguloRot <= 90)
+        velocidadMax *= 1.05f;
+    else if (anguloRot <= 180)
+        velocidadMax *= 1.10f;
+    else
+        velocidadMax *= 1.15f;
 }
 void Jugador::evaluarAterrizaje(){
+    if (anguloSprite >= -15.0f && anguloSprite <= 15.0f)
+        aplicarBonus();
+    else
+        aplicarPenalizacion();
 
+    enSuelo = true;
+    velocidadY = 0.0f;
+    anguloRot = 0.0f;
+    anguloSprite = 0.0f;
 }
 
 void Jugador::aplicarPenalizacion(){
-
+    velocidadMax *= 0.85f;
 }

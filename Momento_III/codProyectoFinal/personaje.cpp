@@ -12,6 +12,20 @@ Personaje::Personaje() {
     velAlDespegue = 0;
 }
 
+void Personaje::acelerar(float dt){
+    velocidadX += aceleracion * dt;
+    if (velocidadX > velocidadMax) velocidadX = velocidadMax;
+}
+
+void Personaje::aplicarGravedad(float dt,float g){
+    velocidadY = velocidadY - (g * dt);
+}
+
+void Personaje::actualizarPosicion(float dt){
+    posX = posX + (velocidadX*dt);
+    if (!enSuelo) posY += velocidadY * dt;
+}
+
 float Personaje::getPosX() const
 {
     return posX;
@@ -90,24 +104,12 @@ void Personaje::setEnSuelo(bool newEnSuelo)
     enSuelo = newEnSuelo;
 }
 
-void Personaje::acelerar(float dt){
-
-    if(velocidadX < velocidadMax){
-        velocidadX = velocidadX + (aceleracion * dt);
-        if(velocidadX > velocidadMax)
-            velocidadX = velocidadMax;
-    }
+float Personaje::getVelAlDespegue() const
+{
+    return velAlDespegue;
 }
 
-void Personaje::aplicarGravedad(float dt,float g){
-    velocidadY = velocidadY - (g * dt);
-}
-
-void Personaje::actualizarPosicion(float dt){
-    posX = posX + (velocidadX*dt);
-}
-
-void Personaje::movParabolico(float dt,float g){
-    posX = posX + velocidadX * dt;
-    posY = posY + velocidadY * dt - 0.5f * g * dt * dt;
+void Personaje::setVelAlDespegue(float newVelAlDespegue)
+{
+    velAlDespegue = newVelAlDespegue;
 }

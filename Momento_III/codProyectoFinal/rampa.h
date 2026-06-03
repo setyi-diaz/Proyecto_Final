@@ -9,10 +9,9 @@ private:
     float cosAngulo;
     float senAngulo;
 public:
-    Rampa(float );
-    Rampa();
-    void calcularImpulsoX(float& );
-    void calcularImpulsoY(float& );
+    Rampa(float gradoAngulo, float x, float y, float w, float h);
+
+    void aplicarEfecto(Personaje* personaje, float dt) override;
     float getAngulo() const;
     void setAngulo(float newAngulo);
     float getCosAngulo() const;

@@ -3,16 +3,18 @@
 
 class Proyectil
 {
-private:
-    short velocidadX;
-    short velocidadY;
-    short impulso;
-    short impulsoVertical;
+protected:
+    float posX;
+    float posY;
+    float velocidadX;
+    float velocidadY;
 
 public:
     Proyectil();
-    virtual void calcularVelnicial() = 0;
-    virtual void calcularPosVuelo() = 0;
+    Proyectil(float X,float Y,float velX,float velY);
+    virtual ~Proyectil() = default;
+    virtual void calcularVelnicial(float velxRival, float angulo) = 0;
+    virtual void calcularPosVuelo(float dt,float g) = 0;
 };
 
 #endif // PROYECTIL_H

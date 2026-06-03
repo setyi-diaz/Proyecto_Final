@@ -6,7 +6,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include <QElapsedTimer>
-#include "jugador.h"
+#include <vector>
+#include <nivel2.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,31 +22,38 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    void setEscena(short numEscena);
 private slots:
-    void actualizarFrame();
-protected:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
+    void actualizar();
 
 private:
     Ui::MainWindow *ui;
-    Jugador motoJugador;
-    QTimer *timer;
-    QElapsedTimer reloj;
     QGraphicsScene *escena;
-    QGraphicsRectItem *spriteMovRect;
-    QGraphicsRectItem * plataforma;
+    QGraphicsRectItem *spriteMoto;
+    QGraphicsRectItem *spriteRival;
+    QGraphicsRectItem *spriteBanana;
 
+    Nivel2* nivel;
+    vector<QGraphicsRectItem*> obstaculosGraficos;
     bool acelerando = false;
     bool frenando = false;
+    bool rotando = false;
+    QTimer* timer;
+    QElapsedTimer reloj;
+
+    static constexpr float ESCALA  = 16.f;  // px por unidad lógica
+    static constexpr float SCENE_W = 1280.f;
+    static constexpr float SCENE_H = 720.f;
+    static constexpr float SUELO_PX = 160.f; // Y del piso en píxeles
+    static constexpr float MOTO_W_PX = 60.f;
+    static constexpr float MOTO_H_PX = 30.f;
+
     float camaraX = 0.f;
-    static constexpr float MUNDO_W = 5000.f; // ancho total de la plataforma
-    static constexpr float SCENE_W   = 800.f;  // ancho lógico de la escena
-    static constexpr float SCENE_H   = 200.f;
-    static constexpr float MOTO_W    = 60.f;
-    static constexpr float MOTO_H    = 30.f;
-    static constexpr float SUELO_Y   = 160.f;  // Y del piso en escena
-    static constexpr float ESCALA    = 4.f;    // píxeles por unidad de juego
+    short numeroEscena;
+
+    float logicaAPantallaX(float posLogicaX) const;
+    float logicaAPantallaY(float posLogicaY) const;
 };
 #endif // MAINWINDOW_H

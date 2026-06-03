@@ -5,14 +5,12 @@
 class Lodo : public Obstaculo
 {
 private:
-    float  friccion;
-    float posX;
-    float posY;
-    float ancho;
-    float alto;
+    float friccion;
 public:
-    Lodo(float f, float x, float y, float w, float h);
-    void generarFriccion(float& ,float );
+    Lodo(float fr, float x, float y, float w, float h);
+    void aplicarEfecto(Personaje* personaje,float dt) override;
+    float getFriccion() const;
+    void setFriccion(float newFriccion);
 };
 
 #endif // LODO_H

@@ -3,7 +3,7 @@
 
 class Personaje
 {
-private:
+protected:
     float posX;
     float posY;
     float velocidadX;
@@ -30,7 +30,6 @@ public:
     float getVelocidadY() const;
     void setVelocidadY(float newVelocidadY);
     float getAceleracion() const;
-
     float getVelocidadMax() const;
     void setVelocidadMax(float newVelocidadMax);
     float getAnguloSprite() const;
@@ -38,6 +37,8 @@ public:
     bool getEnSuelo() const;
     void setEnSuelo(bool newEnSuelo);
     void setAceleracion(float newAceleracion);
+    float getVelAlDespegue() const;
+    void setVelAlDespegue(float newVelAlDespegue);
 };
 
 #endif // PERSONAJE_H

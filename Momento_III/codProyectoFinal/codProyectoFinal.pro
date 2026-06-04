@@ -19,7 +19,8 @@ SOURCES += \
     personaje.cpp \
     proyectil.cpp \
     rampa.cpp \
-    rival.cpp
+    rival.cpp \
+    sprite.cpp
 
 HEADERS += \
     banana.h \
@@ -31,7 +32,8 @@ HEADERS += \
     personaje.h \
     proyectil.h \
     rampa.h \
-    rival.h
+    rival.h \
+    sprite.h
 
 FORMS += \
     mainwindow.ui
@@ -40,3 +42,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    pictures.qrc

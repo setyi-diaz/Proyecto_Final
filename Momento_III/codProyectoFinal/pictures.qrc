@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>imagenes/SpritesJugador-sf.png</file>
+        <file>imagenes/SpriteLodo-sf.png</file>
+        <file>imagenes/fondo.jpeg</file>
+        <file>imagenes/SpriteBanana-sf.png</file>
+        <file>imagenes/SpriteImpactoBanana-sf.png</file>
+        <file>imagenes/SpriteRampa-sf.png</file>
+        <file>imagenes/SpritesRival-sf.png</file>
+    </qresource>
+</RCC>

@@ -109,37 +109,34 @@ void Nivel2::actualizarRival(float dt) {
     rival->lanzarBanana();
 }
 void Nivel2::actualizarBananas(float dt) {
-    for (Proyectil* p : rival->getBananas()) {
-        if (!p->estaActiva()) continue;
+    Proyectil* b = rival->getBanana();
+    if (!b->getActiva()) return;
 
-        p->calcularPosVuelo(dt, G);
+    b->calcularPosVuelo(dt, G);
 
-        // ── La banana tocó el suelo ────────────────────────────────────────
-        if (p->getPosY() <= SUELO_Y) {
-            // 4. APRENDIZAJE: error = donde cayó la banana - donde está el jugador
-            float error = p->getPosX() - jugador->getPosX();
-            rival->guardarErrorImpacto(error);
-            p->setActiva(false);
-            continue;
-        }
+    // ── La banana tocó el suelo ────────────────────────────────────────
+    if (b->getPosY() <= SUELO_Y) {
+        rival->guardarErrorImpacto(b->getPosX() - jugador->getPosX());
+        b->setActiva(false);
+        return;
+    }
 
-        // ── Colisión banana → jugador (AABB simplificada) ─────────────────
-        float dx = std::abs(p->getPosX() - jugador->getPosX());
-        float dy = std::abs(p->getPosY() - jugador->getPosY());
-        if (dx < MOTO_W && dy < MOTO_H) {
-            // Penalización: reducir velocidad máxima del jugador 10%
-            float nuevaVMax = jugador->getVelocidadMax() * 0.90f;
-            if (nuevaVMax < 5.f) nuevaVMax = 5.f;   // mínimo para que pueda moverse
-            jugador->setVelocidadMax(nuevaVMax);
+    // ── Colisión banana → jugador (AABB simplificada) ─────────────────
+    float dx = std::abs(b->getPosX() - jugador->getPosX());
+    float dy = std::abs(b->getPosY() - jugador->getPosY());
+    if (dx < MOTO_W && dy < MOTO_H) {
+        // Penalización: reducir velocidad máxima del jugador 10%
+        float nuevaVMax = jugador->getVelocidadMax() * 0.90f;
+        if (nuevaVMax < 5.f) nuevaVMax = 5.f;
+        jugador->setVelocidadMax(nuevaVMax);
 
-            // El error aquí es 0 (impacto exacto)
-            rival->guardarErrorImpacto(0.f);
-            p->setActiva(false);
-        }
+        // El error aquí es 0 (impacto exacto)
+        rival->guardarErrorImpacto(0.f);
+        b->setActiva(false);
     }
 }
 void Nivel2::reciclarObstaculos(float camaraXLogica){
-    // Borde izquierdo visible + margen de gracia
+    // Borde izquierdo visible + margen
     float bordeIzq = camaraXLogica - MARGEN_RECICLADO;
 
     // Cuánto hay delante de la cámara para reposicionar

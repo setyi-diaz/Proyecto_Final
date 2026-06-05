@@ -11,7 +11,16 @@
 #include <QtMath>
 #include <QRandomGenerator>
 
-static const float META = 5000.0f;
+// Constantes del nivel (evita numeros magicos en el codigo)
+static const float META               = 5000.0f;
+static const float ESCENA_ANCHO       = 680.0f;
+static const float ESCENA_ALTO        = 850.0f;
+static const float COOLDOWN_GOLPE     = 3.0f;
+static const float DIST_COLISION_Y    = 40.0f;
+static const float DIST_SOLAPAMIENTO  = 45.0f;
+static const float COOLDOWN_OBSTACULO = 1.5f;
+static const float DURACION_DESACEL   = 0.5f;
+static const float DURACION_GOLPE_REC = 0.6f;
 
 Nivel1::Nivel1(int numCarriles, int numRivales, QObject *parent)
     : QGraphicsScene(parent),
@@ -466,6 +475,27 @@ bool Nivel1::carrilLibre(int carril) const {
             return false;
     }
     return true;
+}
+
+void Nivel1::procesarTecla(int key) {
+    if (!juegoActivo) return;
+    switch (key) {
+    case Qt::Key_W: aumentarVelocidad(); break;
+    case Qt::Key_S: disminuirVelocidad(); break;
+    case Qt::Key_A:
+        if (jugador->getCarrilActual() > 0 &&
+            carrilLibre(jugador->getCarrilActual() - 1))
+            jugador->cambiarCarril(jugador->getCarrilActual() - 1);
+        break;
+    case Qt::Key_D:
+        if (jugador->getCarrilActual() < numCarriles - 1 &&
+            carrilLibre(jugador->getCarrilActual() + 1))
+            jugador->cambiarCarril(jugador->getCarrilActual() + 1);
+        break;
+    case Qt::Key_J: golpearRival(-1); break;
+    case Qt::Key_K: golpearRival(+1); break;
+    default: break;
+    }
 }
 
 // ---- stubs aun no implementados ----

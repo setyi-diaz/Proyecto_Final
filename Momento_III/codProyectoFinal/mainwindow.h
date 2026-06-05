@@ -3,9 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsView>
-
-class Nivel1;
-class MenuPersonalidades;
+#include "juego.h"
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -17,16 +15,9 @@ protected:
     void keyReleaseEvent(QKeyEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 
-private slots:
-    void iniciarJuego();
-    void volverAlMenu();
-
 private:
-    void ajustarVista();
-
     QGraphicsView *vista;
-    Nivel1 *nivel;
-    MenuPersonalidades *menu;
+    Juego         *juego;
 };
 
 #endif // MAINWINDOW_H

@@ -41,6 +41,7 @@ public:
     JugadorNivel1* getJugador() const;
     int getNumCarriles() const;
     bool carrilLibre(int carril) const;
+    void procesarTecla(int key);
 
     void aumentarVelocidad();
     void disminuirVelocidad();

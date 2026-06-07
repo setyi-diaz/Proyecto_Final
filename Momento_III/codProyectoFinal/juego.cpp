@@ -1,51 +1,78 @@
 #include "juego.h"
-#include "nivel1.h"
-#include "jugadornivel1.h"
-#include "menupersonalidades.h"
-#include <QMessageBox>
-#include <stdexcept>
 
-Juego::Juego(QGraphicsView *vista, QObject *parent)
-    : QObject(parent), vista(vista), nivel(nullptr)
+Juego::Juego(QObject *parent)
+    : QObject(parent)
+    , menu(nullptr)
+    , ventanaNivel1(nullptr)
+    , ventanaNivel2(nullptr)
+    , puntuacionTotal(0)
+    , nivel1Completado(false)
+    , nivel2Completado(false)
 {
-    menu = new MenuPersonalidades(this);
-    connect(menu, &MenuPersonalidades::juegoIniciado, this, &Juego::iniciarNivel);
+    menu          = new MenuWidget();
+    ventanaNivel1 = new MainWindowNivel1();
+    ventanaNivel2 = new MainWindowNivel2();
+
+    conectarSignals();
 }
 
-Juego::~Juego() { delete nivel; }
-
-void Juego::mostrarMenu() {
-    vista->setScene(menu);
-    ajustarVista();
+Juego::~Juego()
+{
+    limpiarVentanas();
 }
 
-void Juego::iniciarNivel() {
-    try {
-        delete nivel;
-        nivel = new Nivel1(3, 2, this);
-        connect(nivel, &Nivel1::reiniciarSolicitado,  this, &Juego::reiniciarNivel);
-        connect(nivel, &Nivel1::volverMenuSolicitado, this, &Juego::volverAlMenu);
-        vista->setScene(nivel);
-        ajustarVista();
-        nivel->iniciar();
-    } catch (const std::exception &e) {
-        QMessageBox::critical(nullptr, "Error", e.what());
-    }
-}
-
-void Juego::reiniciarNivel() { iniciarNivel(); }
-
-void Juego::volverAlMenu() {
-    delete nivel;
-    nivel = nullptr;
+void Juego::iniciar()
+{
+    puntuacionTotal  = 0;
+    nivel1Completado = false;
+    nivel2Completado = false;
     mostrarMenu();
 }
 
-void Juego::procesarTecla(int key) {
-    if (nivel) nivel->procesarTecla(key);
+void Juego::mostrarMenu()
+{
+    if (ventanaNivel1) { ventanaNivel1->liberarRecursos(); ventanaNivel1->hide(); }
+    if (ventanaNivel2) { ventanaNivel2->liberarRecursos(); ventanaNivel2->hide(); }
+    if (menu) menu->showMaximized();
 }
 
-void Juego::ajustarVista() {
-    if (vista->scene())
-        vista->fitInView(vista->scene()->sceneRect(), Qt::KeepAspectRatio);
+void Juego::mostrarNivel1()
+{
+    if (menu) menu->hide();
+    if (ventanaNivel2) { ventanaNivel2->liberarRecursos(); ventanaNivel2->hide(); }
+    if (ventanaNivel1) ventanaNivel1->showMaximized();
 }
+
+void Juego::mostrarNivel2()
+{
+    if (menu) menu->hide();
+    if (ventanaNivel1) { ventanaNivel1->liberarRecursos(); ventanaNivel1->hide(); }
+    if (ventanaNivel2) {
+        ventanaNivel2->resetearAlMenu();
+        ventanaNivel2->showMaximized();
+    }
+}
+
+void Juego::conectarSignals()
+{
+    connect(menu, &MenuWidget::nivel1Seleccionado, this, &Juego::onNivel1Seleccionado);
+    connect(menu, &MenuWidget::nivel2Seleccionado, this, &Juego::onNivel2Seleccionado);
+
+    connect(ventanaNivel1, &MainWindowNivel1::volverAlMenu, this, &Juego::onVolverAlMenuDesdeNivel1);
+    connect(ventanaNivel1, &MainWindowNivel1::irAlNivel2,   this, &Juego::onIrAlNivel2DesdeNivel1);
+    connect(ventanaNivel2, &MainWindowNivel2::volverAlMenu,         this, &Juego::onVolverAlMenuDesdeNivel2);
+    connect(ventanaNivel2, &MainWindowNivel2::volverAlMenuPrincipal, this, &Juego::onVolverAlMenuDesdeNivel2);
+}
+
+void Juego::limpiarVentanas()
+{
+    if (menu)          { menu->close();          delete menu;          menu          = nullptr; }
+    if (ventanaNivel1) { ventanaNivel1->close();  delete ventanaNivel1; ventanaNivel1 = nullptr; }
+    if (ventanaNivel2) { ventanaNivel2->close();  delete ventanaNivel2; ventanaNivel2 = nullptr; }
+}
+
+void Juego::onNivel1Seleccionado() { mostrarNivel1(); }
+void Juego::onNivel2Seleccionado() { mostrarNivel2(); }
+void Juego::onVolverAlMenuDesdeNivel1() { mostrarMenu(); }
+void Juego::onVolverAlMenuDesdeNivel2() { mostrarMenu(); }
+void Juego::onIrAlNivel2DesdeNivel1()  { mostrarNivel2(); }

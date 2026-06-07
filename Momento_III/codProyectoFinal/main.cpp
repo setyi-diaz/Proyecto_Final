@@ -1,11 +1,12 @@
 #include <QApplication>
-#include "mainwindow.h"
+#include "juego.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     QApplication app(argc, argv);
 
-    MainWindow ventana;
-    ventana.show();
+    Juego juego;
+    juego.iniciar();
 
     return app.exec();
 }

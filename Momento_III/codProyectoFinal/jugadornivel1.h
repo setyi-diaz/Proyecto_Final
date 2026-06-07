@@ -2,19 +2,15 @@
 #define JUGADORNIVEL1_H
 
 #include "corredornivel1.h"
-#include "personalidad.h"
 
 class JugadorNivel1 : public CorredorNivel1 {
 public:
-    JugadorNivel1(QGraphicsItem *parent = nullptr);
+    JugadorNivel1();
+    void acelerar(float dt) override;
+    void frenar(float dt)   override;
 
-    void acelerar() override;
-    void frenar() override;
-    void aplicarPersonalidad();
-    void setPersonalidad(Personalidad *p);
-
-private:
-    Personalidad *personalidad;
+protected:
+    QString rutaSprite() const override;
 };
 
 #endif // JUGADORNIVEL1_H

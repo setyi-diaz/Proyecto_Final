@@ -2,33 +2,44 @@
 #define JUEGO_H
 
 #include <QObject>
-#include <QGraphicsView>
+#include "menuwidget.h"
+#include "mainwindownivel1.h"
+#include "mainwindownivel2.h"
 
-class Nivel1;
-class MenuPersonalidades;
-
-// Clase control: coordina el flujo entre el menu y los niveles.
-// No dibuja nada ni conoce la logica del juego.
-class Juego : public QObject {
+class Juego : public QObject
+{
     Q_OBJECT
 public:
-    explicit Juego(QGraphicsView *vista, QObject *parent = nullptr);
+    explicit Juego(QObject *parent = nullptr);
     ~Juego();
 
+    void iniciar();
     void mostrarMenu();
-    void procesarTecla(int key);
+    void mostrarNivel1();
+    void mostrarNivel2();
+
+    int  getPuntuacion()      const { return puntuacionTotal; }
+    bool isNivel1Completado() const { return nivel1Completado; }
+    bool isNivel2Completado() const { return nivel2Completado; }
 
 private slots:
-    void iniciarNivel();
-    void reiniciarNivel();
-    void volverAlMenu();
+    void onNivel1Seleccionado();
+    void onNivel2Seleccionado();
+    void onVolverAlMenuDesdeNivel1();
+    void onVolverAlMenuDesdeNivel2();
+    void onIrAlNivel2DesdeNivel1();
 
 private:
-    void ajustarVista();
+    void conectarSignals();
+    void limpiarVentanas();
 
-    QGraphicsView      *vista;
-    Nivel1             *nivel;
-    MenuPersonalidades *menu;
+    MenuWidget        *menu;
+    MainWindowNivel1  *ventanaNivel1;
+    MainWindowNivel2  *ventanaNivel2;
+
+    int  puntuacionTotal;
+    bool nivel1Completado;
+    bool nivel2Completado;
 };
 
 #endif // JUEGO_H

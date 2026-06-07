@@ -1,25 +1,24 @@
-#include "jugadornivel1.h"
-#include <QBrush>
+﻿#include "jugadornivel1.h"
 
-JugadorNivel1::JugadorNivel1(QGraphicsItem *parent)
-    : CorredorNivel1(parent),
-      personalidad(nullptr)
-{
+JugadorNivel1::JugadorNivel1() : CorredorNivel1() {
     setColorBase(Qt::blue);
 }
 
-void JugadorNivel1::acelerar() {
-    velocidadY += aceleracion;
-    if (velocidadY > velocidadMax) velocidadY = velocidadMax;
+void JugadorNivel1::acelerar(float dt) {
+    velocidadAvance += aceleracion * dt;
+    if (velocidadAvance > velocidadMax) velocidadAvance = velocidadMax;
 }
 
-void JugadorNivel1::frenar() {
-    velocidadY -= aceleracion * 0.5f;
-    if (velocidadY < 0) velocidadY = 0;
+void JugadorNivel1::frenar(float dt) {
+    velocidadAvance -= aceleracion * 0.5f * dt;
+    if (velocidadAvance < 0) velocidadAvance = 0;
 }
 
-void JugadorNivel1::aplicarPersonalidad() {}
-
-void JugadorNivel1::setPersonalidad(Personalidad *p) {
-    personalidad = p;
+QString JugadorNivel1::rutaSprite() const {
+    if (!hayPersonalidad) return ":/nivel1/SimioGolpeadorUsuario.png";
+    const QString &nombre = personalidadActual.nombre;
+    if (nombre == "Simio Veloz")     return ":/nivel1/SimioVelozUsuario.png";
+    if (nombre == "Simio de Acero")  return ":/nivel1/SimioDeAceroUsuario.png";
+    if (nombre == "Simio Golpeador") return ":/nivel1/SimioGolpeadorUsuario.png";
+    return ":/nivel1/SimioGolpeadorUsuario.png";
 }

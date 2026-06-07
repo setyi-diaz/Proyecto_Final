@@ -8,7 +8,6 @@ public:
     Personalidad(const QString &nombre, float modAceleracion, float modVelMax,
                  float resistenciaGolpe, float fuerzaGolpe);
 
-    // Sobrecarga de operadores (requisito de diseño)
     Personalidad& operator=(const Personalidad &otro);
     bool operator==(const Personalidad &otro) const;
     bool operator!=(const Personalidad &otro) const;

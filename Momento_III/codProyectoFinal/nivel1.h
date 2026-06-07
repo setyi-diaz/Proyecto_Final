@@ -1,125 +1,127 @@
 #ifndef NIVEL1_H
 #define NIVEL1_H
 
-#include <QGraphicsScene>
 #include <QTimer>
 #include <QElapsedTimer>
-#include <QGraphicsTextItem>
-#include <QGraphicsLineItem>
-#include <QGraphicsRectItem>
 #include <QList>
-#include <QPair>
 #include <QColor>
-#include <QGraphicsSceneMouseEvent>
+#include "nivel.h"
+#include "jugadornivel1.h"
 #include "rivalnivel1.h"
+#include "item.h"
 
-class JugadorNivel1;
-class RivalNivel1;
-class Pista;
-class ObjetoPista;
-class Personalidad;
-
+enum class DificultadNivel1 { NORMAL, DIFICIL };
 
 struct EstadoRival {
-    RivalNivel1 *rival = nullptr;
-    float progreso = 0;
-    float velBase = 0;
-    float impulsoVel = 0;
-    float tiempoImpulsoVel = 0;
+    RivalNivel1 *rival  = nullptr;
+    float progreso      = 0;
+    float velBase       = 0;
+    float velActual     = 0;
+    float muExtra       = 0;
+    float tiempoLodo    = 0;
+    float durLodo       = 0;
+    float fBoost        = 0;
+    float tiempoBoost   = 0;
+    float durBoost      = 0;
     QColor color;
 };
 
-class Nivel1 : public QGraphicsScene {
+class Nivel1 : public Nivel {
     Q_OBJECT
 public:
     explicit Nivel1(int numCarriles, int numRivales, QObject *parent = nullptr);
     ~Nivel1();
 
-    void iniciar();
-    void setDificultad(Dificultad d);
-    void setPersonalidades(Personalidad *personalidadJugador, QList<Personalidad*> personalidadesRivales);
-    JugadorNivel1* getJugador() const;
-    int getNumCarriles() const;
-    bool carrilLibre(int carril) const;
-    void procesarTecla(int key);
+    void iniciar()                              override;
+    void actualizar(float dt)                   override;
+    void procesarTecla(int key, bool presionada) override;
+    void setDificultad(DificultadNivel1 d);
+    void setPersonalidades(const CorredorNivel1::Personalidad &pJugador,
+                           const QList<CorredorNivel1::Personalidad> &pRivales);
 
-    void aumentarVelocidad();
-    void disminuirVelocidad();
-    void golpearRival(int direccion);
+    DificultadNivel1 getDificultad() const { return dificultad; }
+
+    JugadorNivel1*              getJugador()           const;
+    const QList<EstadoRival>&   getRivales()           const;
+    const QList<Item*>&  getObstaculos()        const;
+    const QList<Item*>&  getEfectos()           const;
+    float  getProgresoJugador()     const;
+    float  getVelActualJugador()    const;
+    float  getTiempoRestante()      const;
+    float  getCooldownGolpe()       const;
+    float  getVelocidadObstaculos() const;
+    float  getFondoOffsetY()        const;
+    int    getNumCarriles()         const;
+    float  getAnchoCarril()         const;
+    float  getMargenX()             const;
+    int    getCuentaRegresiva()     const;
 
 signals:
-    void reiniciarSolicitado();
-    void volverMenuSolicitado();
-
-protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void cuentaRegresivaCambio(int valor);
+    void juegoIniciado();
+    void obstaculoCreado(int index);
+    void efectoCreado(int index);
+    void textoFlotanteCreado(const QString &texto, float x, float y, const QColor &color);
+    void sonidoRotacion();
+    void sonidoBoost();
 
 private slots:
-    void actualizar();
-    void iniciarCuentaRegresiva();
+    void tickInterno();
     void contarRegresiva();
 
 private:
-    void crearRival(int carril, Personalidad *personalidad, const QColor &color);
-    void actualizarBarraProgreso();
+    void crearRival(int carril, const CorredorNivel1::Personalidad &p, const QColor &color);
     void generarObstaculos();
-    void generarEfecto(float efecto);
+    void reciclarEfecto(int index);
+    void inicializarPoolEfectos();
     void actualizarColisiones();
     void verificarVictoria();
-    void actualizarTextosFlotantes();
-    void spawnTextoFlotante(const QString &texto, float x, float y, const QColor &color);
-    void finalizarCarrera(const QString &mensaje, const QColor &color);
+    void aumentarVelocidad();
+    void disminuirVelocidad();
+    void golpearRival(int direccion);
+    bool carrilLibre(int carril) const;
 
-    int numCarriles;
-    int numRivalesConfig;
+    int   numCarriles;
+    int   numRivalesConfig;
     float anchoCarril;
     float margenX;
 
-    JugadorNivel1 *jugador;
-    QList<EstadoRival> rivales;
-    Pista *pista;
-    QList<ObjetoPista*> obstaculos;
-    QList<ObjetoPista*> efectos;
+    JugadorNivel1       *jugador;
+    QList<EstadoRival>   rivales;
+    QList<Item*>  obstaculos;
+    QList<Item*>  efectos;
 
-    QGraphicsTextItem *textoControles;
-    QGraphicsTextItem *textoInfo;
-    QGraphicsTextItem *textoCuenta;
-    QGraphicsTextItem *textoTiempo;
-
-    Personalidad *personalidadJugador;
+    CorredorNivel1::Personalidad personalidadJugador;
 
     float progresoJugador;
-    float velocidadDrift;
+    float velActualJugador;
     float velBaseJugador;
-    float impulsoJugador;
-    float tiempoImpulsoJugador;
-    float frenadaJugador;
-    float tiempoFrenadaJugador;
+    float muExtraJugador;
+    float tiempoLodoJugador;
+    float durLodoJugador;
+    float fBoostJugador;
+    float tiempoBoostJugador;
+    float durBoostJugador;
 
     float tiempoTotal;
     float tiempoRestante;
 
-    QTimer *timerJuego;
-    QTimer *timerRegresiva;
-    QElapsedTimer reloj;
+    QTimer        *timerJuego;
+    QTimer        *timerRegresiva;
+    QElapsedTimer  reloj;
 
-    int cuentaRegresiva;
-    bool juegoActivo;
-    float dt;
+    int   cuentaRegresiva;
+    float dtInterno;
     float tiempoObstaculo;
-    float tiempoBanana;
+    float tiempoEsperaBanana = 0.f;
     float intervaloObstaculos;
 
+    static constexpr int POOL_BANANAS = 6;  // pool fijo de bananas
     float cooldownGolpe;
     float velocidadObstaculos;
-    Dificultad dificultad;
+    float fondoOffsetY;
 
-    QList<QPair<QGraphicsTextItem*, float>> textosFlotantes;
-
-    // Botones post-carrera
-    QGraphicsRectItem *btnReiniciar;
-    QGraphicsRectItem *btnMenu;
-    bool carreraTerminada;
+    DificultadNivel1 dificultad;
 };
 
 #endif // NIVEL1_H

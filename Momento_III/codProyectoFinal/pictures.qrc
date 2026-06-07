@@ -1,11 +1,43 @@
 <RCC>
-    <qresource prefix="/">
-        <file>imagenes/SpritesJugador-sf.png</file>
-        <file>imagenes/SpriteLodo-sf.png</file>
-        <file>imagenes/fondo.jpeg</file>
-        <file>imagenes/SpriteBanana-sf.png</file>
-        <file>imagenes/SpriteImpactoBanana-sf.png</file>
-        <file>imagenes/SpriteRampa-sf.png</file>
-        <file>imagenes/SpritesRival-sf.png</file>
+    <!-- ── General: usado en menú y/o ambos niveles ─────────────────── -->
+    <qresource prefix="/general">
+        <file alias="FondoMenuInicial.png">Multimedia/General/FondoMenuInicial.png</file>
+        <file alias="SpriteBanana-sf.png">Multimedia/General/SpriteBanana-sf.png</file>
+        <file alias="SpriteImpactoBanana-sf.png">Multimedia/General/SpriteImpactoBanana-sf.png</file>
+        <file alias="Banana.png">Multimedia/General/Banana.png</file>
+        <file alias="boost.wav">Multimedia/General/boost.wav</file>
+    </qresource>
+
+    <!-- ── Nivel 1 ────────────────────────────────────────────────────── -->
+    <qresource prefix="/nivel1">
+        <file alias="Fondo3Inicio.png">Multimedia/multimedia_nivel1/imagenes/Fondo3Inicio.png</file>
+        <file alias="ImagenVictoria.png">Multimedia/multimedia_nivel1/imagenes/ImagenVictoria.png</file>
+        <file alias="ImagenDerrota.png">Multimedia/multimedia_nivel1/imagenes/ImagenDerrota.png</file>
+        <file alias="Pista.png">Multimedia/multimedia_nivel1/imagenes/Pista.png</file>
+        <file alias="Lodo.png">Multimedia/multimedia_nivel1/imagenes/Lodo.png</file>
+        <file alias="Agua.png">Multimedia/multimedia_nivel1/imagenes/Agua.png</file>
+        <file alias="Tronco.png">Multimedia/multimedia_nivel1/imagenes/Tronco.png</file>
+        <file alias="SimioVeloz.png">Multimedia/multimedia_nivel1/imagenes/SimioVeloz.png</file>
+        <file alias="SimioDeAcero.png">Multimedia/multimedia_nivel1/imagenes/SimioDeAcero.png</file>
+        <file alias="SimioGolpeador.png">Multimedia/multimedia_nivel1/imagenes/SimioGolpeador.png</file>
+        <file alias="SimioVelozUsuario.png">Multimedia/multimedia_nivel1/imagenes/SimioVelozUsuario.png</file>
+        <file alias="SimioDeAceroUsuario.png">Multimedia/multimedia_nivel1/imagenes/SimioDeAceroUsuario.png</file>
+        <file alias="SimioGolpeadorUsuario.png">Multimedia/multimedia_nivel1/imagenes/SimioGolpeadorUsuario.png</file>
+        <file alias="AudioRotacion.wav">Multimedia/multimedia_nivel1/sonidos/AudioRotacion.wav</file>
+        <file alias="SonidoPartidaNivel1.wav">Multimedia/multimedia_nivel1/sonidos/SonidoPartidaNivel1.wav</file>
+    </qresource>
+
+    <!-- ── Nivel 2 ────────────────────────────────────────────────────── -->
+    <qresource prefix="/nivel2">
+        <file alias="fondo.png">Multimedia/multimedia_nivel2/imagenes/fondo.png</file>
+        <file alias="FondoMenuNivel2.png">Multimedia/multimedia_nivel2/imagenes/FondoMenuNivel2.png</file>
+        <file alias="SpritesJugador-sf.png">Multimedia/multimedia_nivel2/imagenes/SpritesJugador-sf.png</file>
+        <file alias="SpritesRival-sf.png">Multimedia/multimedia_nivel2/imagenes/SpritesRival-sf.png</file>
+        <file alias="SpriteRampa-sf.png">Multimedia/multimedia_nivel2/imagenes/SpriteRampa-sf.png</file>
+        <file alias="SpriteLodo-sf.png">Multimedia/multimedia_nivel2/imagenes/SpriteLodo-sf.png</file>
+        <file alias="VictoriaNivel2.png">Multimedia/multimedia_nivel2/imagenes/VictoriaNivel2.png</file>
+        <file alias="DerrotaNivel2.png">Multimedia/multimedia_nivel2/imagenes/DerrotaNivel2.png</file>
+        <file alias="SonidoPartidaNivel2.wav">Multimedia/multimedia_nivel2/sonidos/SonidoPartidaNivel2.wav</file>
+        <file alias="ColisionLodo.wav">Multimedia/multimedia_nivel2/sonidos/ColisionLodo.wav</file>
     </qresource>
 </RCC>

@@ -1,47 +1,69 @@
 #ifndef NIVEL2_H
 #define NIVEL2_H
-#include "jugador.h"
-#include "rival.h"
+
+#include "nivel.h"
+#include "jugadornivel2.h"
+#include "rivalnivel2.h"
 #include "obstaculo.h"
 #include <vector>
 using std::vector;
 
-class Nivel2
+enum class DificultadNivel2 { NORMAL, DIFICIL };
+
+class Nivel2 : public Nivel
 {
-private:
-    Jugador* jugador;
-    Rival* rival;
-    vector<Obstaculo*> obstaculos;
-
-    // Temporizador acumulado para evaluar el agente cada 2 s
-    float timerAgente;
-    static constexpr float INTERVALO_AGENTE = 2.0f;
-
-    static constexpr float G = 9.8f;
-
-    void verificarColisiones(float dt);
-    void verificarSuelo();
-    void actualizarBananas(float dt);
-    void actualizarRival(float dt);
-
+    Q_OBJECT
 public:
-    static constexpr float SUELO_Y   = 0.f;  // Y del piso en escena
-    static constexpr float MOTO_W    = 3.75f;
-    static constexpr float MOTO_H    = 1.875f;
-    static constexpr float umbralEsquive = 12.5;
-    static constexpr float MARGEN_RECICLADO = 20.f;  // unidades lógicas fuera de pantalla
-    static constexpr float SCENE_W_LOGICA   = 80.f;  // SCENE_W / ESCALA = 1280/16
-    static constexpr float umbralVentaja = 9.375f;
-    static constexpr float ajuste = 1.875f;
-
-    Nivel2();
+    explicit Nivel2(QObject *parent = nullptr);
     ~Nivel2();
 
-    void dinamicaNivel(float dt, bool acelerando, bool frenando, bool rotando);
+    void iniciar()                              override;
+    void actualizar(float dt)                   override;
+    void procesarTecla(int key, bool presionada) override;
+    void setDificultad(DificultadNivel2 d);
+    DificultadNivel2 getDificultad() const { return dificultad; }
+
+    const JugadorNivel2*       getJugador()    const { return jugador; }
+    const RivalNivel2*         getRival()      const { return rival; }
+    const vector<Obstaculo*>&  getObstaculos() const { return obstaculos; }
+
+    static constexpr float SUELO_Y         = 0.f;
+    static constexpr float MOTO_W          = 3.75f;
+    static constexpr float MOTO_H          = 1.875f;
+    static constexpr float umbralEsquive   = 60.f;
+    static constexpr float MARGEN_RECICLADO = 20.f;
+    static constexpr float SCENE_W_LOGICA  = 80.f;
+    static constexpr float umbralVentaja   = 30.f;
+    static constexpr float META_X          = 5000.f;
+
+signals:
+    void sonidoRampa();
+    void sonidoBanana();
+    void sonidoLodo();
+    void impactoBanana(float velocidadPerdida);
+    void bonoVelocidad(float velocidadGanada);
+    void caidaEspalda();
+
+private:
+    static constexpr float G               = 80.f;
+    static constexpr float INTERVALO_AGENTE = 2.0f;
+
+    JugadorNivel2*     jugador;
+    RivalNivel2*       rival;
+    vector<Obstaculo*> obstaculos;
+    float              timerAgente = 0.f;
+
+    bool acelerando    = false;
+    bool frenando      = false;
+    bool rotando       = false;
+    bool enLodoAnterior = false;
+
+    DificultadNivel2 dificultad;
+
+    void actualizarBananas(float dt);
+    void actualizarRival(float dt);
     void reciclarObstaculos(float camaraXLogica);
-    const Jugador* getJugador() const { return jugador; }
-    const Rival* getRival() const { return rival; }
-    const vector<Obstaculo*>& getObstaculos() const { return obstaculos;}
+    void verificarVictoriaDerrota();
 };
 
 #endif // NIVEL2_H

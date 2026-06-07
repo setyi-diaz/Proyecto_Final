@@ -1,16 +1,14 @@
 #include "sprite.h"
 
-Sprite::Sprite(const QString& rutaImagen, int cantidadFrames)
+Sprite::Sprite(const QString& rutaImagen, int columnas, int filas)
+    : frameActual(0),
+      columnas(columnas > 0 ? columnas : 1),
+      filas(filas > 0 ? filas : 1)
 {
-    frameActual = 0;
-    totalFrames = (cantidadFrames > 0) ? cantidadFrames : 1;
-
-    // La imagen contiene todos los cuadros uno junto al otro.
+    totalFrames = this->columnas * this->filas;
     pixmap = new QPixmap(rutaImagen);
-
-    // Cada frame ocupa una fracción horizontal idéntica de la hoja.
-    ancho = static_cast<float>(pixmap->width())  / totalFrames;
-    alto  = static_cast<float>(pixmap->height());
+    ancho = static_cast<float>(pixmap->width()) / this->columnas;
+    alto  = static_cast<float>(pixmap->height()) / this->filas;
 }
 
 Sprite::~Sprite()
@@ -18,31 +16,34 @@ Sprite::~Sprite()
     delete pixmap;
 }
 
-void Sprite::avanzarFrame()
+void Sprite::setFrame(int index)
 {
-    frameActual++;
-    if (frameActual >= totalFrames)
-        frameActual = 0;
-}
-
-void Sprite::reiniciar()
-{
-    frameActual = 0;
+    if (index >= 0 && index < totalFrames)
+        frameActual = index;
 }
 
 QRectF Sprite::getRectFrame() const
 {
-    // Devuelve el recorte del frame actual dentro de la hoja.
-    return QRectF(frameActual * ancho, 0.f, ancho, alto);
+    int col = frameActual % columnas;
+    int row = frameActual / columnas;
+    return QRectF(col * ancho, row * alto, ancho, alto);
 }
 
-const QPixmap* Sprite::getPixmap() const
+QPixmap Sprite::getFramePixmap() const
 {
-    return pixmap;
+    QRectF rect = getRectFrame();
+    return pixmap->copy(rect.toRect());
 }
 
-float Sprite::getAncho() const { return ancho; }
-float Sprite::getAlto()  const { return alto;  }
+QPixmap Sprite::getFrameScaled(int targetW, int targetH) const
+{
+    return getFramePixmap().scaled(targetW, targetH,
+                                   Qt::KeepAspectRatio,
+                                   Qt::SmoothTransformation);
+}
 
+const QPixmap* Sprite::getPixmap() const { return pixmap; }
+float Sprite::getAncho() const { return ancho; }
+float Sprite::getAlto() const { return alto; }
 int Sprite::getFrameActual() const { return frameActual; }
 int Sprite::getTotalFrames() const { return totalFrames; }

@@ -11,7 +11,8 @@ private:
 public:
     Rampa(float gradoAngulo, float x, float y, float w, float h);
 
-    void aplicarEfecto(Personaje* personaje, float dt) override;
+    void aplicarEfecto(JugadorNivel2* personaje, float dt) override;
+    void aplicarEfecto(RivalNivel2* personaje, float dt) override;
     float getAngulo() const;
     void setAngulo(float newAngulo);
     float getCosAngulo() const;

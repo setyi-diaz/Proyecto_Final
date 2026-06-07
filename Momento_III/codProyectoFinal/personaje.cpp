@@ -1,115 +1,16 @@
 #include "personaje.h"
 
-Personaje::Personaje() {
-    posX = 0;
-    posY = 0;
-    velocidadX = 0;
-    velocidadY = 0;
-    aceleracion = 0;
-    velocidadMax = 50;
-    enSuelo = true;
-    anguloSprite = 0;
-    velAlDespegue = 0;
-}
+Personaje::Personaje()
+    : posX(0.f), posY(0.f),
+      aceleracion(40.f),
+      velocidadMax(150.f)
+{}
 
-void Personaje::acelerar(float dt){
-    velocidadX += aceleracion * dt;
-    if (velocidadX > velocidadMax) velocidadX = velocidadMax;
-}
-
-void Personaje::aplicarGravedad(float dt,float g){
-    velocidadY = velocidadY - (g * dt);
-}
-
-void Personaje::actualizarPosicion(float dt){
-    posX = posX + (velocidadX*dt);
-    if (!enSuelo) posY += velocidadY * dt;
-}
-
-float Personaje::getPosX() const
-{
-    return posX;
-}
-
-void Personaje::setPosX(float newPosX)
-{
-    posX = newPosX;
-}
-
-float Personaje::getPosY() const
-{
-    return posY;
-}
-
-void Personaje::setPosY(float newPosY)
-{
-    posY = newPosY;
-}
-
-float Personaje::getVelocidadX() const
-{
-    return velocidadX;
-}
-
-void Personaje::setVelocidadX(float newVelocidadX)
-{
-    velocidadX = newVelocidadX;
-}
-
-float Personaje::getVelocidadY() const
-{
-    return velocidadY;
-}
-
-void Personaje::setVelocidadY(float newVelocidadY)
-{
-    velocidadY = newVelocidadY;
-}
-
-float Personaje::getAceleracion() const
-{
-    return aceleracion;
-}
-void Personaje::setAceleracion(float newAceleracion)
-{
-    aceleracion = newAceleracion;
-}
-float Personaje::getVelocidadMax() const
-{
-    return velocidadMax;
-}
-
-void Personaje::setVelocidadMax(float newVelocidadMax)
-{
-    velocidadMax = newVelocidadMax;
-}
-
-float Personaje::getAnguloSprite() const
-{
-    return anguloSprite;
-}
-
-void Personaje::setAnguloSprite(float newAnguloSprite)
-{
-    anguloSprite = newAnguloSprite;
-}
-
-bool Personaje::getEnSuelo() const
-{
-    return enSuelo;
-}
-
-void Personaje::setEnSuelo(bool newEnSuelo)
-{
-    enSuelo = newEnSuelo;
-}
-
-float Personaje::getVelAlDespegue() const
-{
-    return velAlDespegue;
-}
-
-void Personaje::setVelAlDespegue(float newVelAlDespegue)
-{
-    velAlDespegue = newVelAlDespegue;
-}
+float Personaje::getPosX() const       { return posX; }
+float Personaje::getPosY() const       { return posY; }
+void  Personaje::setPosX(float x)      { posX = x; }
+void  Personaje::setPosY(float y)      { posY = y; }
+float Personaje::getVelocidadMax() const { return velocidadMax; }
+void  Personaje::setVelocidadMax(float v){ velocidadMax = v; }
+float Personaje::getAceleracion() const  { return aceleracion; }
+void  Personaje::setAceleracion(float a) { aceleracion = a; }

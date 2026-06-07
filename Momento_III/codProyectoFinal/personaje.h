@@ -1,44 +1,27 @@
 #ifndef PERSONAJE_H
 #define PERSONAJE_H
 
-class Personaje
-{
-protected:
-    float posX;
-    float posY;
-    float velocidadX;
-    float velocidadY;
-    float aceleracion;
-    float velocidadMax;
-    bool enSuelo;
-    float anguloSprite;
-    float velAlDespegue;
+class Personaje {
 public:
     Personaje();
+    virtual ~Personaje() = default;
 
-    void acelerar(float dt);
-    void aplicarGravedad(float dt,float g);
-    void actualizarPosicion(float );
-    void movParabolico(float dt,float g);
+    virtual void acelerar(float dt) = 0;
 
     float getPosX() const;
-    void setPosX(float newPosX);
     float getPosY() const;
-    void setPosY(float newPosY);
-    float getVelocidadX() const;
-    void setVelocidadX(float newVelocidadX);
-    float getVelocidadY() const;
-    void setVelocidadY(float newVelocidadY);
-    float getAceleracion() const;
+    void  setPosX(float x);
+    void  setPosY(float y);
     float getVelocidadMax() const;
-    void setVelocidadMax(float newVelocidadMax);
-    float getAnguloSprite() const;
-    void setAnguloSprite(float newAnguloSprite);
-    bool getEnSuelo() const;
-    void setEnSuelo(bool newEnSuelo);
-    void setAceleracion(float newAceleracion);
-    float getVelAlDespegue() const;
-    void setVelAlDespegue(float newVelAlDespegue);
+    void  setVelocidadMax(float v);
+    float getAceleracion() const;
+    void  setAceleracion(float a);
+
+protected:
+    float posX        = 0.f;
+    float posY        = 0.f;
+    float aceleracion = 40.f;
+    float velocidadMax = 150.f;
 };
 
 #endif // PERSONAJE_H

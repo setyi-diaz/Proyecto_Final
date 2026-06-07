@@ -1,7 +1,9 @@
 #ifndef OBSTACULO_H
 #define OBSTACULO_H
 #include <cmath>
-#include "personaje.h"
+#include "jugadornivel2.h"
+
+class RivalNivel2;
 
 class Obstaculo
 {
@@ -22,8 +24,9 @@ public:
     void setPosX(float newPosX);
     void setPosY(float newPosY);
 
-    bool colisiona(const Personaje* p, float pAncho, float pAlto) const;
-    virtual void aplicarEfecto(Personaje* personaje,float dt) = 0;
+    bool colisiona(const JugadorNivel2* p, float pAncho, float pAlto) const;
+    virtual void aplicarEfecto(JugadorNivel2* personaje, float dt) = 0;
+    virtual void aplicarEfecto(RivalNivel2* personaje, float dt) = 0;
 };
 
 #endif // OBSTACULO_H
